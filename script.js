@@ -1,4 +1,4 @@
-var redirect = function(url, method) {
+﻿var redirect = function(url, method) {
     $('<form>', {
         method: method,
         action: url
@@ -83,7 +83,7 @@ $(".WRDeleteButton").click(function() {
   });
 
 });
-$(".AddButton").click(function() {
+$(".PRAddButton").click(function() {
    window.open("http://localhost/database/productadd.php");
 
 });
