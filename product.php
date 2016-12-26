@@ -30,7 +30,9 @@
 </tr>
 <?php
 
-$mysqli = new mysqli("localhost","root","","warehouse");
+include('db_connect.php');
+global $mysqli;
+
 if (!isset($_GET["search"]))
 	$_GET["search"] = "";
 $query = "SELECT * FROM product where name like '%$_GET[search]%';";

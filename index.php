@@ -30,7 +30,9 @@
 </tr>
 <?php
 
-$mysqli = new mysqli("localhost","root","","warehouse");
+include('db_connect.php');
+global $mysqli;
+
 if (!isset($_GET["search"]))
 	$_GET["search"] = "";
 $query = "SELECT * FROM product where name like '%$_GET[search]%';";
@@ -91,6 +93,69 @@ while ($row = $result->fetch_assoc()) {
 <div class="col-sm-3 sakr">
 	
     <button type="button" id="OrderSendBtn" class="btn btn-default">Order</button>
+</div>
+
+<div id="OrderConfirm" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><?php echo $key ?></h4>
+      </div>
+      <div class="modal-body">
+		<form id="OrderConfirmForm">
+			<div class="input-group">
+			    <span class="input-group-addon">Customer Id</span>
+			    <input id="msg" type="text" class="form-control" name="CustId">
+			</div>
+	        <input type="submit" class="btn btn-default" value="Confirm">
+		</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="OrderError" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Error While Ordering!</h4>
+      </div>
+      <div class="modal-body">
+      
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="OrderSuccess" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Success!</h4>
+      </div>
+      <div class="modal-body">
+      
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
 </div>
 </div>
 </body>

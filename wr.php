@@ -1,5 +1,6 @@
 <?php
-$mysqli = new mysqli("localhost","root","","warehouse");
+include('db_connect.php');
+global $mysqli;
 $address = $_POST["address"];
 $name = $_POST["name"];
 $success = 0;

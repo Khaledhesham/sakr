@@ -1,5 +1,6 @@
 <?php
-$mysqli = new mysqli("localhost","root","","warehouse");
+include('db_connect.php');
+global $mysqli;
 $id = $_POST["id"];
 $name = $_POST["name"];
 $address = $_POST["address"];

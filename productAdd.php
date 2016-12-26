@@ -27,7 +27,9 @@
 	  <label for="supplier">Supplier:</label>
 	  <select class="form-control" id="supplier" name="supplier">
 	  	<?php 
-		  	$mysqli = new mysqli("localhost","root","","warehouse");
+include('db_connect.php');
+global $mysqli;
+
 		  	$query = "SELECT * FROM Supplier";
 			$result = $mysqli->query($query);
 			while ($row = $result->fetch_assoc()) {

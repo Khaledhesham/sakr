@@ -39,24 +39,6 @@ for (var i = 0; i < a.length; i++) {
 return -1;
 }
 
-$(".AddButton").click(function() {
-  var $id = $(this).parent().parent().attr('id');
-  var $name = $("#"+$id+" #name").html();
-  var $i = GetIndex($list, $id);
-  if ($i == -1) {
-  	var $obj = {
-    id: $id,
-    count: 1
-	};
-	$list.push($obj);
-	$(".sakr").prepend("<p id='sakr-"+$id+"'>"+$name+" 1</p>");
-  }
-  else {
-  	$list[$i].count++;
-  	$("#sakr-"+$id).html($name+" "+$list[$i].count);
-  }
-
-});
 $(".SRAddButton").click(function() {
    window.open("http://localhost/database/supplieradd.php");
 
@@ -121,9 +103,79 @@ $(".DeleteButton").click(function() {
   });
 
 });
-$("#OrderSendBtn").click(function() {
-	var text = JSON.stringify($list);
-	redirect("order.php", text);
-});
+
+  $(".AddButton").click(function() {
+    var $id = $(this).parent().parent().attr('id');
+    var $i = GetIndex($list, $id);
+    if ($i == -1) {
+      var $obj = {
+      id: $id,
+      count: 1
+      };
+      $list.push($obj);
+      $(".sakr").prepend("<p id='sakr-"+$id+"'>"+$id+" 1</p>");
+    }
+    else {
+      $list[$i].count++;
+      $("#sakr-"+$id).html($id+" "+$list[$i].count);
+    }
+  });
+
+  $("#OrderSendBtn").click(function() {
+
+    $.ajax({
+      url: "order.php",
+      type: 'POST',
+      data: {
+          "call": "SendOrder",
+          "list": $list
+      }
+    }).done(function(data) {
+      if (data == "success") {
+          $("#OrderConfirm").modal('show');
+      }
+      else {
+          $("#OrderError").modal('show');
+          $("#OrderError").find(".modal-body").text("The requested items do not exist in the needed quantities.");
+      }
+    });
+  });
+
+  $("#OrderConfirmForm").submit(function(event) {
+    event.preventDefault();
+    $data = $(this).find("#msg").val();
+    $.ajax({
+      url: "order.php",
+      type: 'POST',
+      data: {
+        "call": "SendOrderConfirm",
+        "list": $list,
+        "CustId": $data
+      }
+    }).done(function(data) {
+      $("#OrderConfirm").modal('hide');
+      if (data == "customer") {
+          $("#OrderError").modal('show');
+          $("#OrderError").find(".modal-body").text("Customer does not exist!");
+      }
+      else if (data == "error") {
+          $("#OrderError").modal('show');
+          $("#OrderError").find(".modal-body").text("An error occured while submiting the order");
+      }
+      else {
+        console.log(data);
+          $("#OrderSuccess").modal('show');
+          $("#OrderSuccess").find(".modal-body").text("Order Price is " + data);
+      }
+    });
+  }); 
+
+  $('#OrderSuccess').on('hidden.bs.modal', function () {
+    location.reload(false);
+  });
+
+  $('#OrderError').on('hidden.bs.modal', function () {
+    location.reload(false);
+  });
 
 });

@@ -1,5 +1,6 @@
 <?php
-$mysqli = new mysqli("localhost","root","","warehouse");
+include('db_connect.php');
+global $mysqli;
 $id = $_GET["name"];
 $query = "Delete from warehouse where WarehouseName = '$id'";
 if($mysqli->query($query))
