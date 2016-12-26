@@ -17,7 +17,7 @@
 	    <span class="input-group-addon">Search</span>
 	    <input id="msg" type="text" class="form-control" name="search">
 	</div>
-	<button class="AddButton" type="button">Add</button>
+	<button class="PRAddButton" type="button">Add</button>
 </form>
 <table class="table table-hover">
 <tr>
